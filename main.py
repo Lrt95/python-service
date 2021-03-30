@@ -22,10 +22,7 @@ def cpu(hardware, agent):
 
 
 def disk(hardware, agent):
-    print("hello")
-    # print(hardware + " agent: " + str(agent))
-    # print(data_system.create_dictionary_disk())
-    # write_data(hardware, data_system.create_dictionary_disk(), "agent: " + str(agent))
+    write_data(data_system.create_dictionary_disk(), hardware, "agent" + str(agent))
 
 
 def memory(hardware, agent):
@@ -33,17 +30,11 @@ def memory(hardware, agent):
 
 
 def net(hardware, agent):
-    print("hello")
-    # print(hardware + " agent: " + str(agent))
-    # print(data_system.create_dictionary_net())
-    # write_data(hardware, data_system.create_dictionary_net(), "agent: " + str(agent))
+    write_data(data_system.create_dictionary_net(), hardware, "agent" + str(agent))
 
 
 def sensor(hardware, agent):
-    print("hello")
-    # print(hardware + " agent: " + str(agent))
-    # print(data_system.create_dictionary_sensors())
-    # write_data(hardware, data_system.create_dictionary_sensors(), "agent: " + str(agent))
+    write_data(data_system.create_dictionary_sensors(), hardware, "agent" + str(agent))
 
 
 def create_job_scheduler(agent, config):
@@ -63,14 +54,13 @@ def create_job_scheduler(agent, config):
     for hardware, value in config.items():
         if hardware != "agent":
             scheduler.add_job(function_hardware[hardware], 'interval', args=[hardware, agent], seconds=value)
-    print('Press Ctrl + C to exit')
 
 
 if __name__ == '__main__':
     dict_configuration = cliArgParsing.cli_parse()
     if dict_configuration:
+        print('Press Ctrl + C to exit')
         for agent in range(dict_configuration["agent"]):
-            print(agent)
             create_job_scheduler(agent, dict_configuration)
 
     scheduler.start()

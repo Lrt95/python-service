@@ -3,108 +3,123 @@
 Created by Emerick CHALET
 Python Docstring
 """
+from enum import Enum
+
 import psutil
-from collections import namedtuple
 
 
-class GetDataSystem():
+class GetDataSystem:
+    """ Class GetDataSystem"""
+
     def __init__(self):
         pass
 
-    def get_cpu_times(self):
+    @staticmethod
+    def get_cpu_times():
         """
 
         :rtype: object
         """
         return psutil.cpu_times(percpu=False)
 
-    def get_cpu_percent(self):
+    @staticmethod
+    def get_cpu_percent():
         """
 
         :rtype: object
         """
         return psutil.cpu_percent(interval=None, percpu=False)
 
-    def get_cpu_times_percent(self):
+    @staticmethod
+    def get_cpu_times_percent():
         """
 
         :rtype: object
         """
         return psutil.cpu_times_percent(interval=None, percpu=False)
 
-
-    def get_cpu_stats(self):
+    @staticmethod
+    def get_cpu_stats():
         """
 
         :rtype: object
         """
         return psutil.cpu_stats()
 
-    def get_cpu_load_avg(self):
+    @staticmethod
+    def get_cpu_load_avg():
         """
 
         :rtype: object
         """
         return psutil.getloadavg()
 
-
-    def get_virtual_memory(self):
+    @staticmethod
+    def get_virtual_memory():
         """
 
         :rtype: object
         """
         return psutil.virtual_memory()
 
-    def get_swap_memory(self):
+    @staticmethod
+    def get_swap_memory():
         """
 
         :rtype: object
         """
         return psutil.swap_memory()
 
-    def get_disk_partitions(self):
+    @staticmethod
+    def get_disk_partitions():
         """
 
         :rtype: object
         """
         return psutil.disk_partitions(all=False)
 
-    def get_disk_usage(self, path):
+    @staticmethod
+    def get_disk_usage(path):
         """
 
         :rtype: object
         """
         return psutil.disk_usage(path)
 
-    def get_disk_io_counters(self):
+    @staticmethod
+    def get_disk_io_counters():
         """
 
         :rtype: object
         """
         return psutil.disk_io_counters()
 
-    def get_net_io_counters(self):
+    @staticmethod
+    def get_net_io_counters():
         """
 
         :rtype: object
         """
         return psutil.net_io_counters(pernic=False, nowrap=True)
 
-    def get_sensors_temperatures(self):
+    @staticmethod
+    def get_sensors_temperatures():
         """
 
         :rtype: object
         """
         return psutil.sensors_temperatures(fahrenheit=False)
 
-    def get_sensors_fans(self):
+    @staticmethod
+    def get_sensors_fans():
         """
 
         :rtype: object
         """
         return psutil.sensors_fans()
 
-    def get_sensors_battery(self):
+    @staticmethod
+    def get_sensors_battery():
         """
 
         :rtype: object
@@ -123,20 +138,10 @@ class GetDataSystem():
             "cpu_load_avg_15minutes": self.get_cpu_load_avg()[2]
         }
 
-        index_times = 0
-        for value in self.get_cpu_times():
-            dictionary_cpu["cpu_times_" + self.get_cpu_times()._fields[index_times]] = value
-            index_times += 1
+        self.set_dict(dictionary_cpu, self.get_cpu_times(), "cpu_times_")
+        self.set_dict(dictionary_cpu, self.get_cpu_times_percent(), "cpu_times_percent_")
+        self.set_dict(dictionary_cpu, self.get_cpu_stats(), "cpu_stats_")
 
-        index_times_percent = 0
-        for value in self.get_cpu_times_percent():
-            dictionary_cpu["cpu_times_percent_" + self.get_cpu_times_percent()._fields[index_times_percent]] = value
-            index_times_percent += 1
-
-        index_cpu_stats = 0
-        for value in self.get_cpu_stats():
-            dictionary_cpu["cpu_stats_" + self.get_cpu_stats()._fields[index_cpu_stats]] = value
-            index_cpu_stats += 1
         return dictionary_cpu
 
     def create_dictionary_memory(self):
@@ -146,15 +151,8 @@ class GetDataSystem():
         """
         dictionary_memory = {}
 
-        index_virtual_memory = 0
-        for value in self.get_virtual_memory():
-            dictionary_memory["virtual_memory_" + self.get_virtual_memory()._fields[index_virtual_memory]] = value
-            index_virtual_memory += 1
-
-        index_swap_memory = 0
-        for value in self.get_swap_memory():
-            dictionary_memory["swap_memory_" + self.get_swap_memory()._fields[index_swap_memory]] = value
-            index_swap_memory += 1
+        self.set_dict(dictionary_memory, self.get_virtual_memory(), "virtual_memory_")
+        self.set_dict(dictionary_memory, self.get_swap_memory(), "swap_memory_")
 
         return dictionary_memory
 
@@ -163,11 +161,12 @@ class GetDataSystem():
 
         :rtype: object
         """
-        dictionary_disk = {
-            "disk_partitions": self.get_disk_partitions(),
-            # "disk_usage": self.get_disk_usage(),
-            "disk_io_counters": self.get_disk_io_counters()
-        }
+        dictionary_disk = {}
+
+        self.set_dict_disk(dictionary_disk, self.get_disk_partitions(), "disk_partitions_")
+        self.set_dict(dictionary_disk, self.get_disk_usage("/"), "disk_usage_")
+        self.set_dict(dictionary_disk, self.get_disk_io_counters(), "disk_io_counters_")
+
         return dictionary_disk
 
     def create_dictionary_net(self):
@@ -175,9 +174,10 @@ class GetDataSystem():
 
         :rtype: object
         """
-        dictionary_net = {
-            "net_io_counters": self.get_net_io_counters()
-        }
+        dictionary_net = {}
+
+        self.set_dict(dictionary_net, self.get_net_io_counters(), "net_io_counters_")
+
         return dictionary_net
 
     def create_dictionary_sensors(self):
@@ -185,9 +185,63 @@ class GetDataSystem():
 
         :rtype: object
         """
-        dictionary_sensors = {
-            "sensors_temperatures": self.get_sensors_temperatures(),
-            "sensors_fans": self.get_sensors_fans(),
-            "sensors_battery": self.get_sensors_battery()
-        }
+        dictionary_sensors = {}
+
+        self.set_dict(dictionary_sensors, self.get_sensors_battery(), "sensors_battery_")
+        self.set_dict_sensor(dictionary_sensors, self.get_sensors_temperatures(), "sensors_temperatures_")
+        self.set_dict_sensor(dictionary_sensors, self.get_sensors_fans(), "sensors_fans_")
+
         return dictionary_sensors
+
+    @staticmethod
+    def set_dict_sensor(dictionary_sensors, sensors, key_name):
+        """
+
+        :param dictionary_sensors:
+        :param sensors:
+        :param key_name:
+        """
+        for key, value in sensors.items():
+            index = 0
+            for element in value:
+                index_element = 0
+                for i in element:
+                    dictionary_sensors[key_name
+                                       + key
+                                       + "_"
+                                       + str(index)
+                                       + "_"
+                                       + element._fields[index_element]] = i
+                    index_element += 1
+                index += 1
+
+    @staticmethod
+    def set_dict(dictionary_net, named_tuple, key_name):
+        """
+
+        :param dictionary_net:
+        :param named_tuple:
+        :param key_name:
+        """
+        index = 0
+        for element in named_tuple:
+            dictionary_net[key_name + named_tuple._fields[index]] = element.value if isinstance(element,
+                                                                                                Enum) else element
+            index += 1
+
+    @staticmethod
+    def set_dict_disk(dictionary_disk, named_tuple, key_name):
+        """
+
+        :param dictionary_disk:
+        :param named_tuple:
+        :param key_name:
+        """
+        index_ = 0
+        for value in named_tuple:
+            index = 0
+            for element in value:
+                dictionary_disk[
+                    key_name + str(index_) + "_" + str(index) + "_" + value._fields[index]] = element
+                index += 1
+            index_ += 1
