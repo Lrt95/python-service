@@ -12,7 +12,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 interval_schedule = 3
 
 
-def lauch_task():
+def launch_task():
     """Function launch task
         For lunch task to schedule
     """
@@ -21,7 +21,7 @@ def lauch_task():
 
 if __name__ == '__main__':
     scheduler = BackgroundScheduler()
-    scheduler.add_job(lauch_task, 'interval', seconds=interval_schedule)
+    scheduler.add_job(launch_task, 'interval', seconds=interval_schedule)
     scheduler.start()
     print('Press Ctrl + C to exit')
 
