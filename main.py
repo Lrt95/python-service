@@ -11,29 +11,39 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 from db.databaseInflux import read_data, write_data
 from argParsing import cliArgParsing
+from dataSysteme.Getdatasystem import GetDataSystem
 
 scheduler = BackgroundScheduler()
+data_system = GetDataSystem()
 
 
 def cpu(hardware, agent):
-    print(hardware + " agent: " + str(agent))
-    # write_data(hardware, "", "agent: " + str(agent))
+    write_data(data_system.create_dictionary_cpu(), hardware, "agent" + str(agent))
 
 
 def disk(hardware, agent):
-    print(hardware + " agent: " + str(agent))
+    print("hello")
+    # print(hardware + " agent: " + str(agent))
+    # print(data_system.create_dictionary_disk())
+    # write_data(hardware, data_system.create_dictionary_disk(), "agent: " + str(agent))
 
 
 def memory(hardware, agent):
-    print(hardware + " agent: " + str(agent))
+    write_data(data_system.create_dictionary_memory(), hardware, "agent" + str(agent))
 
 
 def net(hardware, agent):
-    print(hardware + " agent: " + str(agent))
+    print("hello")
+    # print(hardware + " agent: " + str(agent))
+    # print(data_system.create_dictionary_net())
+    # write_data(hardware, data_system.create_dictionary_net(), "agent: " + str(agent))
 
 
 def sensor(hardware, agent):
-    print(hardware + " agent: " + str(agent))
+    print("hello")
+    # print(hardware + " agent: " + str(agent))
+    # print(data_system.create_dictionary_sensors())
+    # write_data(hardware, data_system.create_dictionary_sensors(), "agent: " + str(agent))
 
 
 def create_job_scheduler(agent, config):

@@ -25,6 +25,7 @@ def write_data(hardware_element, hardware, agent):
     :param hardware: string of type hardware
     :param hardware_element: dict hardware element
     """
+
     for field, value in hardware_element.items():
         write_api = client.write_api(write_options=SYNCHRONOUS)
         point = Point("data") \
