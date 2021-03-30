@@ -3,3 +3,4 @@ memory: 5
 disk: 7
 net: 9
 sensor: 10
+agent: 3
