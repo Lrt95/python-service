@@ -9,6 +9,8 @@ import time
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
+from db.databaseInflux import DatabaseInflux
+
 interval_schedule = 3
 
 
@@ -24,7 +26,9 @@ if __name__ == '__main__':
     scheduler.add_job(launch_task, 'interval', seconds=interval_schedule)
     scheduler.start()
     print('Press Ctrl + C to exit')
-
+    db = DatabaseInflux("agent1")
+    db.write_data({"disk_partitions": 234.25, "disk_io_counters": 254}, "disk")
+    print(db.read_data("disk"))
     try:
         while True:
             time.sleep(2)
