@@ -53,7 +53,8 @@ def parsing_yaml(name_file):
     dict_configuration = {}
     for key, value in yaml_content.items():
         if key == "cpu" or key == "memory" or key == "sensor" or key == "disk" or key == "net":
-            dict_configuration[key] = value
+            if int(value) > 0:
+                dict_configuration[key] = int(value)
     return dict_configuration
 
 
