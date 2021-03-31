@@ -1,0 +1,6 @@
+cpu: 3
+memory: 5
+disk: 7
+net: 9
+sensor: 11
+agent: 1
