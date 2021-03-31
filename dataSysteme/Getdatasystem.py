@@ -16,120 +16,106 @@ class GetDataSystem:
 
     @staticmethod
     def get_cpu_times():
-        """
-
-        :rtype: object
+        """ Method get cpu times
+        :rtype: object cpu times
         """
         return psutil.cpu_times(percpu=False)
 
     @staticmethod
     def get_cpu_percent():
-        """
-
-        :rtype: object
+        """ Method get cpu percent
+        :rtype: object cpu percent
         """
         return psutil.cpu_percent(interval=None, percpu=False)
 
     @staticmethod
     def get_cpu_times_percent():
-        """
-
-        :rtype: object
+        """ Method get cpu times percent
+        :rtype: object cpu times percent
         """
         return psutil.cpu_times_percent(interval=None, percpu=False)
 
     @staticmethod
     def get_cpu_stats():
-        """
-
-        :rtype: object
+        """ Method get cpu stats
+        :rtype: object cpu stats
         """
         return psutil.cpu_stats()
 
     @staticmethod
     def get_cpu_load_avg():
-        """
-
-        :rtype: object
+        """ Method get load avg
+        :rtype: object load avg
         """
         return psutil.getloadavg()
 
     @staticmethod
     def get_virtual_memory():
-        """
-
-        :rtype: object
+        """ Method get virtual memory
+        :rtype: object virtual memory
         """
         return psutil.virtual_memory()
 
     @staticmethod
     def get_swap_memory():
-        """
-
-        :rtype: object
+        """ Method get swap memory
+        :rtype: object swap memory
         """
         return psutil.swap_memory()
 
     @staticmethod
     def get_disk_partitions():
-        """
-
-        :rtype: object
+        """ Method get disk partitions
+        :rtype: object get disk partitions
         """
         return psutil.disk_partitions(all=False)
 
     @staticmethod
     def get_disk_usage(path):
-        """
-
-        :rtype: object
+        """ Method get disk usage
+        :param path: string of path disk
+        :return: dict disk usage
         """
         return psutil.disk_usage(path)
 
     @staticmethod
     def get_disk_io_counters():
-        """
-
-        :rtype: object
+        """ Method get disk io counters
+        :rtype: object get disk io counters
         """
         return psutil.disk_io_counters()
 
     @staticmethod
     def get_net_io_counters():
-        """
-
-        :rtype: object
+        """ Method get net io counters
+        :rtype: object net disk io counters
         """
         return psutil.net_io_counters(pernic=False, nowrap=True)
 
     @staticmethod
     def get_sensors_temperatures():
-        """
-
-        :rtype: object
+        """ Method get sensors temperatures
+        :rtype: object get sensors temperatures
         """
         return psutil.sensors_temperatures(fahrenheit=False)
 
     @staticmethod
     def get_sensors_fans():
-        """
-
-        :rtype: object
+        """ Method get sensors fans
+        :rtype: object get sensors fans
         """
         return psutil.sensors_fans()
 
     @staticmethod
     def get_sensors_battery():
-        """
-
-        :rtype: object
+        """ Method get sensors battery
+        :rtype: object get sensors battery
         """
         return psutil.sensors_battery()
 
     def create_dictionary_cpu(self):
-        """
-
-        :rtype: object
+        """ Method create dictionary cpu
+        :return: dict of info cpu
         """
         dictionary_cpu = {
             "cpu_percent": self.get_cpu_percent(),
@@ -145,9 +131,8 @@ class GetDataSystem:
         return dictionary_cpu
 
     def create_dictionary_memory(self):
-        """
-
-        :rtype: object
+        """ Method create dictionary memory
+        :return: dict of info memory
         """
         dictionary_memory = {}
 
@@ -157,22 +142,19 @@ class GetDataSystem:
         return dictionary_memory
 
     def create_dictionary_disk(self):
-        """
-
-        :rtype: object
+        """ Method create dictionary disk
+        :return: dict of info disk
         """
         dictionary_disk = {}
 
         self.set_dict_disk(dictionary_disk, self.get_disk_partitions(), "disk_partitions_")
         self.set_dict(dictionary_disk, self.get_disk_usage("/"), "disk_usage_")
         self.set_dict(dictionary_disk, self.get_disk_io_counters(), "disk_io_counters_")
-
         return dictionary_disk
 
     def create_dictionary_net(self):
-        """
-
-        :rtype: object
+        """ Method create dictionary net
+        :return: dict of info net
         """
         dictionary_net = {}
 
@@ -181,9 +163,8 @@ class GetDataSystem:
         return dictionary_net
 
     def create_dictionary_sensors(self):
-        """
-
-        :rtype: object
+        """ Method create dictionary sensors
+        :return: dict of info sensors
         """
         dictionary_sensors = {}
 
@@ -195,11 +176,11 @@ class GetDataSystem:
 
     @staticmethod
     def set_dict_sensor(dictionary_sensors, sensors, key_name):
-        """
-
-        :param dictionary_sensors:
-        :param sensors:
-        :param key_name:
+        """ Method set dict sensor
+            Iterate of object sensor for create dict of sensors
+        :param dictionary_sensors: dict of sensors
+        :param sensors: object sensors
+        :param key_name: string of key
         """
         for key, value in sensors.items():
             index = 0
@@ -217,11 +198,11 @@ class GetDataSystem:
 
     @staticmethod
     def set_dict(dictionary_net, named_tuple, key_name):
-        """
-
-        :param dictionary_net:
-        :param named_tuple:
-        :param key_name:
+        """ Method set dict
+            Iterate of object info system for create dict
+        :param dictionary_net: dict
+        :param named_tuple: Object namedtuple
+        :param key_name: string of key
         """
         index = 0
         for element in named_tuple:
@@ -230,15 +211,15 @@ class GetDataSystem:
             index += 1
 
     @staticmethod
-    def set_dict_disk(dictionary_disk, named_tuple, key_name):
-        """
-
-        :param dictionary_disk:
-        :param named_tuple:
-        :param key_name:
+    def set_dict_disk(dictionary_disk, disk, key_name):
+        """ Method set dict disk
+            Iterate of object disk for create dict of disk
+        :param dictionary_disk: dict of disk
+        :param disk: object disk
+        :param key_name: string of key name
         """
         index_ = 0
-        for value in named_tuple:
+        for value in disk:
             index = 0
             for element in value:
                 dictionary_disk[
