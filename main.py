@@ -11,7 +11,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # from db.databaseInflux import write_data
 from argParsing import cliArgParsing
 from dataSysteme.Getdatasystem import GetDataSystem
-from sender import sender
+from bus.sender import sender
 
 scheduler = BackgroundScheduler()
 data_system = GetDataSystem()
