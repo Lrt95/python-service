@@ -1,4 +1,4 @@
-""" Module name
+""" Module databaseInflux
 
 Created by Antony Correia
 Python Docstring

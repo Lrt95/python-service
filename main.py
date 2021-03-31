@@ -1,4 +1,4 @@
-""" Module name
+""" Module main
 
 Created by Antony Correia
 Python Docstring

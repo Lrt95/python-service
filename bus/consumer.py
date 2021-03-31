@@ -1,3 +1,9 @@
+""" Module consumer
+
+Created by Marine Bijon
+Python Docstring
+"""
+
 import pika
 import json
 

@@ -1,4 +1,4 @@
-""" Module Main
+""" Module GetDataSystem
 
 Created by Emerick CHALET
 Python Docstring

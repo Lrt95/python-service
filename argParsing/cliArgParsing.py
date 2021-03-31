@@ -1,6 +1,6 @@
-""" Module name
+""" Module cliArgparser
 
-Created by Antony Correia
+Created by Marine Bijon
 Python Docstring
 """
 

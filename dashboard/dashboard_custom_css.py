@@ -1,0 +1,11 @@
+""" Module name
+
+Created by Antony Correia
+Python Docstring
+"""
+
+flex_row_space_around = {
+    "display": "flex",
+    "flex-direction": "row",
+    "justify-content": "space-around"
+}
