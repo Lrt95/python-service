@@ -1,6 +1,8 @@
 import pika
 import json
 
+from db.databaseInflux import write_data
+
 
 def callback(ch, method, properties, body):
     """Function callback call when received message
@@ -10,7 +12,8 @@ def callback(ch, method, properties, body):
     :param properties:
     :param body: message received
     """
-    print(json.loads(body))
+    dict_message = (json.loads(body))
+    write_data(dict_message["message"], dict_message["hardware"], dict_message["agent"])
 
 
 def consumer():

@@ -6,27 +6,21 @@ import pika
 import json
 
 
-def sender(message):
+def sender(message, hardware, agent):
     """ Function sender of data bus
 
     :param message: message send with all informations
     """
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-    print(connection)
     channel = connection.channel()
     channel.queue_declare(queue='logs', durable=True)
 
-    channel.basic_publish(exchange='', routing_key='logs', body=json.dumps(message),
+    dict_agent = {"agent": "agent" + str(agent), "hardware": hardware, "message": message()}
+    print(f'Job send: {hardware} - Agent: {agent}')
+
+    channel.basic_publish(exchange='', routing_key='logs', body=json.dumps(dict_agent),
                           properties=pika.BasicProperties(
                               delivery_mode=2
                           ))
-    print(f" [x] Sent {message}")
+
     connection.close()
-
-
-def main():
-    sender({"id": "test", "toto": "titi"})
-
-
-if __name__ == '__main__':
-    main()
