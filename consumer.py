@@ -1,12 +1,22 @@
 import pika
-import time
 import json
 
+
 def callback(ch, method, properties, body):
+    """Function callback call when received message
+
+    :param ch:
+    :param method:
+    :param properties:
+    :param body: message received
+    """
     print(json.loads(body))
 
 
-def sender():
+def consumer():
+    """Function consumer received message in queue
+
+    """
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 
     channel = connection.channel()
@@ -21,5 +31,6 @@ def sender():
 
     channel.start_consuming()
 
+
 if __name__ == '__main__':
-    sender()
+    consumer()

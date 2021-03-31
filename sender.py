@@ -7,6 +7,10 @@ import json
 
 
 def sender(message):
+    """ Function sender of data bus
+
+    :param message: message send with all informations
+    """
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     print(connection)
     channel = connection.channel()
@@ -14,8 +18,8 @@ def sender(message):
 
     channel.basic_publish(exchange='', routing_key='logs', body=json.dumps(message),
                           properties=pika.BasicProperties(
-                            delivery_mode=2
-                        ))
+                              delivery_mode=2
+                          ))
     print(f" [x] Sent {message}")
     connection.close()
 
