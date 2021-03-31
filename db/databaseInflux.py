@@ -33,83 +33,94 @@ def write_data(hardware_element, hardware, agent):
         write_api.write(bucket, org, point)
 
 
-def read_data(hardware, agent):
-    """ Function read data
+def read_data_agent_hardware(time, agent, hardware):
+    """ Function read_data_agent_hardware
         in InFluxDB
+    :param time: time for query
     :param agent: string of agent
     :param hardware: string of type hardware
     :return: list of result query
     """
     query = f'from(bucket: \"{bucket}\")\
-    |> range(start: -1h)\
+    |> range(start: -' + str(time) + 'h)\
     |> filter(fn: (r) => r._measurement == "data")\
-    |> filter(fn: (r) => r.agent == \"{agent}\")\
-    |> filter(fn: (r) => r.hardware == \"{hardware}\")'
+    |> filter(fn: (r) => r.agent == "agent' + str(agent) + '")\
+    |> filter(fn: (r) => r.hardware == "' + str(hardware) + '")'
 
     result = client.query_api().query(org=org, query=query)
-    results_query = []
+    result_query = []
+    dict_system = {}
     for table in result:
+        result_hardware = {}
+        result_hardware["elements"] = []
+        for line in table:
+            result_hardware["agent"] = line["agent"]
+            # result_hardware["hardware"] = line["hardware"]
         for record in table.records:
-            results_query.append((record.get_value(), record.get_field()))
-    return results_query
+            dict_system[record.get_field()] = record.get_value()
+        result_hardware["elements"].append(dict_system)
+        result_query.append(result_hardware)
+
+    return result_query
 
 
-def read_data(hardware, agent):
-    """ Function read data
+def read_data_agent(time, agent):
+    """ Function read_data_agent
         in InFluxDB
-    :param agent: string of agent
-    :param hardware: string of type hardware
+    :param time: time for query
+    :param agent: id of agent
     :return: list of result query
     """
     query = f'from(bucket: \"{bucket}\")\
-    |> range(start: -1h)\
+    |> range(start: -' + str(time) + 'h)\
     |> filter(fn: (r) => r._measurement == "data")\
-    |> filter(fn: (r) => r.agent == \"{agent}\")\
-    |> filter(fn: (r) => r.hardware == \"{hardware}\")'
+    |> filter(fn: (r) => r.agent == "agent' + str(agent) + '")\
+    |> sort(columns:["agent"])'
 
     result = client.query_api().query(org=org, query=query)
-    results_query = []
+    result_query = []
+    dict_system = {}
     for table in result:
+        result_hardware = {}
+        result_hardware["elements"] = []
+        for line in table:
+            result_hardware["agent"] = line["agent"]
+            # result_hardware["hardware"] = line["hardware"]
         for record in table.records:
-            results_query.append((record.get_value(), record.get_field()))
-    return results_query
+            dict_system[record.get_field()] = record.get_value()
+        result_hardware["elements"].append(dict_system)
+        result_query.append(result_hardware)
+
+    return result_query
 
 
-def read_data(hardware, agent):
-    """ Function read data
-        in InFluxDB
-    :param agent: string of agent
-    :param hardware: string of type hardware
-    :return: list of result query
-    """
-    query = f'from(bucket: \"{bucket}\")\
-    |> range(start: -1h)\
-    |> filter(fn: (r) => r._measurement == "data")\
-    |> filter(fn: (r) => r.agent == \"{agent}\")\
-    |> filter(fn: (r) => r.hardware == \"{hardware}\")'
-
-    result = client.query_api().query(org=org, query=query)
-    results_query = []
-    for table in result:
-        for record in table.records:
-            results_query.append((record.get_value(), record.get_field()))
-    return results_query
-
-
-def read_all_data():
+def read_all_data(time):
     """ Function read_all_data
         in InFluxDB
+    :param time: time for query
     :return: list of result query
     """
     query = f'from(bucket: \"{bucket}\")\
-    |> range(start: -1h)\
-    |> filter(fn: (r) => r._measurement == "data")'
-
+    |> range(start: -' + str(time) + 'h)\
+    |> filter(fn: (r) => r._measurement == "data")\
+    |> sort(columns:["agent"])'
     result = client.query_api().query(org=org, query=query)
-    results_query = []
+
+    result_query = []
+    dict_system = {}
     for table in result:
-        result_agent = []
-        for record in table.records:
-            result_agent.append((record.get_value(), record.get_field()))
-        results_query.append(result_agent)
-    return results_query
+        result_hardware = {}
+        result_hardware["elements"] = []
+        for line in table:
+            result_hardware["agent"] = line["agent"]
+            # result_hardware["hardware"] = line["hardware"]
+            for record in table.records:
+                dict_system[record.get_field()] = record.get_value()
+        result_hardware["elements"].append(dict_system)
+        result_query.append(result_hardware)
+
+    return result_query
+
+
+if __name__ == '__main__':
+    read_data_agent(0)
