@@ -52,3 +52,64 @@ def read_data(hardware, agent):
         for record in table.records:
             results_query.append((record.get_value(), record.get_field()))
     return results_query
+
+
+def read_data(hardware, agent):
+    """ Function read data
+        in InFluxDB
+    :param agent: string of agent
+    :param hardware: string of type hardware
+    :return: list of result query
+    """
+    query = f'from(bucket: \"{bucket}\")\
+    |> range(start: -1h)\
+    |> filter(fn: (r) => r._measurement == "data")\
+    |> filter(fn: (r) => r.agent == \"{agent}\")\
+    |> filter(fn: (r) => r.hardware == \"{hardware}\")'
+
+    result = client.query_api().query(org=org, query=query)
+    results_query = []
+    for table in result:
+        for record in table.records:
+            results_query.append((record.get_value(), record.get_field()))
+    return results_query
+
+
+def read_data(hardware, agent):
+    """ Function read data
+        in InFluxDB
+    :param agent: string of agent
+    :param hardware: string of type hardware
+    :return: list of result query
+    """
+    query = f'from(bucket: \"{bucket}\")\
+    |> range(start: -1h)\
+    |> filter(fn: (r) => r._measurement == "data")\
+    |> filter(fn: (r) => r.agent == \"{agent}\")\
+    |> filter(fn: (r) => r.hardware == \"{hardware}\")'
+
+    result = client.query_api().query(org=org, query=query)
+    results_query = []
+    for table in result:
+        for record in table.records:
+            results_query.append((record.get_value(), record.get_field()))
+    return results_query
+
+
+def read_all_data():
+    """ Function read_all_data
+        in InFluxDB
+    :return: list of result query
+    """
+    query = f'from(bucket: \"{bucket}\")\
+    |> range(start: -1h)\
+    |> filter(fn: (r) => r._measurement == "data")'
+
+    result = client.query_api().query(org=org, query=query)
+    results_query = []
+    for table in result:
+        result_agent = []
+        for record in table.records:
+            result_agent.append((record.get_value(), record.get_field()))
+        results_query.append(result_agent)
+    return results_query
