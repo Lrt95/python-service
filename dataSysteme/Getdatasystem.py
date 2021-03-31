@@ -6,6 +6,7 @@ Python Docstring
 from enum import Enum
 
 import psutil
+import platform
 
 
 class GetDataSystem:
@@ -147,8 +148,9 @@ class GetDataSystem:
         """
         dictionary_disk = {}
 
+        path = "C://" if platform.platform() == "Windows" else "/"
         self.set_dict_disk(dictionary_disk, self.get_disk_partitions(), "disk_partitions_")
-        self.set_dict(dictionary_disk, self.get_disk_usage("/"), "disk_usage_")
+        self.set_dict(dictionary_disk, self.get_disk_usage(path), "disk_usage_")
         self.set_dict(dictionary_disk, self.get_disk_io_counters(), "disk_io_counters_")
         return dictionary_disk
 
@@ -167,10 +169,10 @@ class GetDataSystem:
         :return: dict of info sensors
         """
         dictionary_sensors = {}
-
         self.set_dict(dictionary_sensors, self.get_sensors_battery(), "sensors_battery_")
-        self.set_dict_sensor(dictionary_sensors, self.get_sensors_temperatures(), "sensors_temperatures_")
-        self.set_dict_sensor(dictionary_sensors, self.get_sensors_fans(), "sensors_fans_")
+        if platform.platform() == "Linux":
+            self.set_dict_sensor(dictionary_sensors, self.get_sensors_temperatures(), "sensors_temperatures_")
+            self.set_dict_sensor(dictionary_sensors, self.get_sensors_fans(), "sensors_fans_")
 
         return dictionary_sensors
 

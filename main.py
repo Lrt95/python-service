@@ -8,23 +8,23 @@ import time
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from db.databaseInflux import write_data
+# from db.databaseInflux import write_data
 from argParsing import cliArgParsing
 from dataSysteme.Getdatasystem import GetDataSystem
+from bus.sender import sender
 
 scheduler = BackgroundScheduler()
 data_system = GetDataSystem()
 
 
-def write_influx(hardware, agent, create_dict):
-    """ Function write_influx
-        Call the Method Write data in Influx With data info system
+def send_producer(hardware, agent, create_dict):
+    """ Function send_producer
+        Send info system to producer
     :param create_dict: dict of data system
     :param hardware: String of name hardware
     :param agent: String of name agent
     """
-    print(f'Job: {hardware} - Agent: {agent}')
-    write_data(create_dict(), hardware, "agent" + str(agent))
+    sender(create_dict, hardware, agent)
 
 
 def create_job_scheduler(agent, config):
@@ -43,7 +43,7 @@ def create_job_scheduler(agent, config):
 
     for hardware, value in config.items():
         if hardware != "agent":
-            scheduler.add_job(write_influx, 'interval', args=[hardware, agent, function_hardware[hardware]],
+            scheduler.add_job(send_producer, 'interval', args=[hardware, agent, function_hardware[hardware]],
                               max_instances=10,
                               seconds=value)
 
