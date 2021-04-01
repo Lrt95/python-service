@@ -14,3 +14,8 @@ flex_row = {
     "display": "flex",
     "flex-direction": "row",
 }
+
+counter_io = {
+    "color": "green",
+    "text-align": "center"
+}

@@ -12,8 +12,23 @@ PLOTLY_LOGO = "https://images.plot.ly/logo/new-branding/plotly-logomark.png"
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
+select = dbc.Select(
+    id="select",
+    options=[
+        {"label": "5 minutes", "value": "5m"},
+        {"label": "15 minutes", "value": "15m"},
+        {"label": "1 hour", "value": "1h"},
+        {"label": "3 hours", "value": "3h"},
+        {"label": "6 hours", "value": "6h"},
+        {"label": "12 hours", "value": "12h"},
+        {"label": "24 hours", "value": "24h"},
+        {"label": "2 days", "value": "2d"}
+    ],
+)
+
 search_bar = dbc.Row(
     [
+        dbc.Col(select),
         dbc.Col(dbc.Input(type="search", placeholder="Agent", id='input_agent')),
         dbc.Col(
             dbc.Button("Ok", color="primary", className="ml-2", id='button_agent'),
@@ -24,6 +39,8 @@ search_bar = dbc.Row(
     className="ml-auto flex-nowrap mt-3 mt-md-0",
     align="center",
 )
+
+
 
 navbar = dbc.Navbar(
     [

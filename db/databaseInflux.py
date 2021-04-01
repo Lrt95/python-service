@@ -11,7 +11,7 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 
 token = "Tzwjjay6Dv9j6dg1-P-Kq3yulo6t0y4-Ze17fe_VrV8HVijPrzE-B65hcVQF9tFaiVmBvj2xhnQKVC3WNCSuhg=="
 org = "antony.correia@gmail.com"
-bucket = "antony.correia's Bucket"
+bucket = "python-service"
 
 client = InfluxDBClient(url="https://eu-central-1-1.aws.cloud2.influxdata.com", token=token)
 
@@ -55,6 +55,8 @@ def read_data(time, agent, hardware, element):
     if element:
         query += f'|> filter(fn: (r) => r["_field"] == "' + str(element) + '")'
 
+    query += '|> sort(columns:["_time"])'
+
     result = client.query_api().query(org=org, query=query)
     return get_result_query(result)
 
@@ -72,7 +74,6 @@ def get_result_query(result):
 
             if not line["_field"] in result_query[line["agent"]]:
                 result_query[line["agent"]][line["_field"]] = []
-
             result_query[line["agent"]][line["_field"]].append({"time": line["_time"], "value": line["_value"]})
 
     return result_query
