@@ -15,7 +15,7 @@ def sender(message, hardware, agent):
     channel = connection.channel()
     channel.queue_declare(queue='logs', durable=True)
 
-    dict_agent = {"agent": "agent" + str(agent), "hardware": hardware, "message": message()}
+    dict_agent = {"agent": agent, "hardware": hardware, "message": message()}
     print(f'Job send: {hardware} - Agent: {agent}')
 
     channel.basic_publish(exchange='', routing_key='logs', body=json.dumps(dict_agent),
