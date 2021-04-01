@@ -9,3 +9,8 @@ flex_row_space_around = {
     "flex-direction": "row",
     "justify-content": "space-around"
 }
+
+flex_row = {
+    "display": "flex",
+    "flex-direction": "row",
+}
