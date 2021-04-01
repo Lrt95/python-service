@@ -8,7 +8,6 @@ import time
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-# from db.databaseInflux import write_data
 from argParsing import cliArgParsing
 from dataSysteme.Getdatasystem import GetDataSystem
 from bus.sender import sender
