@@ -13,6 +13,7 @@ def callback(ch, method, properties, body):
     :param body: message received
     """
     dict_message = (json.loads(body))
+    print(f' [*] Job Received: {dict_message["hardware"]} - Agent: {dict_message["agent"]}')
     write_data(dict_message["message"], dict_message["hardware"], dict_message["agent"])
 
 
