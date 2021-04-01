@@ -49,18 +49,18 @@ def read_data_agent_hardware(time, agent, hardware):
 
     result = client.query_api().query(org=org, query=query)
     result_query = []
+    result_hardware = {}
     dict_system = {}
     for table in result:
-        result_hardware = {}
+
         result_hardware["elements"] = []
         for line in table:
             result_hardware["time"] = line["_time"]
             result_hardware["agent"] = line["agent"]
-            # result_hardware["hardware"] = line["hardware"]
         for record in table.records:
             dict_system[record.get_field()] = record.get_value()
         result_hardware["elements"].append(dict_system)
-        result_query.append(result_hardware)
+        result_query.append( result_hardware)
 
     return result_query
 
