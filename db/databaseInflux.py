@@ -54,6 +54,7 @@ def read_data_agent_hardware(time, agent, hardware):
         result_hardware = {}
         result_hardware["elements"] = []
         for line in table:
+            result_hardware["time"] = line["_time"]
             result_hardware["agent"] = line["agent"]
             # result_hardware["hardware"] = line["hardware"]
         for record in table.records:
@@ -84,8 +85,8 @@ def read_data_agent(time, agent):
         result_hardware = {}
         result_hardware["elements"] = []
         for line in table:
+            result_hardware["time"] = line["_time"]
             result_hardware["agent"] = line["agent"]
-            # result_hardware["hardware"] = line["hardware"]
         for record in table.records:
             dict_system[record.get_field()] = record.get_value()
         result_hardware["elements"].append(dict_system)
@@ -113,7 +114,7 @@ def read_all_data(time):
         result_hardware["elements"] = []
         for line in table:
             result_hardware["agent"] = line["agent"]
-            # result_hardware["hardware"] = line["hardware"]
+            result_hardware["time"] = line["_time"]
             for record in table.records:
                 dict_system[record.get_field()] = record.get_value()
         result_hardware["elements"].append(dict_system)
@@ -123,4 +124,4 @@ def read_all_data(time):
 
 
 if __name__ == '__main__':
-    read_data_agent(0)
+    read_data_agent_hardware(12, 0, "cpu")
