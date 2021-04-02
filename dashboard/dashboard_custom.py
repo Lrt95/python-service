@@ -220,7 +220,7 @@ def callback_app(agent, time):
                    ["swap_memory_free", "swap_memory_used", "swap_memory_total"],
                    "swap_memory_total", time), \
            time, \
-           get_graph("CPU Times Users", "Times", "Percent", "cpu_percent", time=time), \
+           get_graph("CPU Percent Users", "Times", "Percent", "cpu_percent", time=time), \
            agent, \
            'Send: ' '{:,.0f}'.format(
                get_text(agent, "net", "net_io_counters_bytes_sent", time) / float(1 << 30)) + " GB", \
