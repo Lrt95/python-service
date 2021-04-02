@@ -1,4 +1,4 @@
-""" Module Main
+""" Module GetDataSystem
 
 Created by Emerick CHALET
 Python Docstring
@@ -148,7 +148,7 @@ class GetDataSystem:
         """
         dictionary_disk = {}
 
-        path = "C://" if platform.platform() == "Windows" else "/"
+        path = "C://" if platform.system() == "Windows" else "/"
         self.set_dict_disk(dictionary_disk, self.get_disk_partitions(), "disk_partitions_")
         self.set_dict(dictionary_disk, self.get_disk_usage(path), "disk_usage_")
         self.set_dict(dictionary_disk, self.get_disk_io_counters(), "disk_io_counters_")
@@ -170,7 +170,7 @@ class GetDataSystem:
         """
         dictionary_sensors = {}
         self.set_dict(dictionary_sensors, self.get_sensors_battery(), "sensors_battery_")
-        if platform.platform() == "Linux":
+        if platform.system() == "Linux":
             self.set_dict_sensor(dictionary_sensors, self.get_sensors_temperatures(), "sensors_temperatures_")
             self.set_dict_sensor(dictionary_sensors, self.get_sensors_fans(), "sensors_fans_")
 
