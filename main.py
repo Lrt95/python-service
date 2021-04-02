@@ -1,4 +1,4 @@
-""" Module name
+""" Module main
 
 Created by Antony Correia
 Python Docstring
@@ -8,7 +8,6 @@ import time
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-# from db.databaseInflux import write_data
 from argParsing import cliArgParsing
 from dataSysteme.Getdatasystem import GetDataSystem
 from bus.sender import sender
@@ -52,12 +51,14 @@ if __name__ == '__main__':
     dict_configuration = cliArgParsing.cli_parse()
     if dict_configuration:
         print('Press Ctrl + C to exit')
-        for agent in range(dict_configuration["agent"]):
-            create_job_scheduler(agent, dict_configuration)
+        if dict_configuration["agent"]:
+            create_job_scheduler(dict_configuration["agent"], dict_configuration)
+            scheduler.start()
+            try:
+                while True:
+                    time.sleep(2)
+            except (KeyboardInterrupt, SystemExit):
+                scheduler.shutdown()
 
-    scheduler.start()
-    try:
-        while True:
-            time.sleep(10)
-    except (KeyboardInterrupt, SystemExit):
-        scheduler.shutdown()
+
+
