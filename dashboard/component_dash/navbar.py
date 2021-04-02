@@ -29,7 +29,7 @@ select = dbc.Select(
 search_bar = dbc.Row(
     [
         dbc.Col(select),
-        dbc.Col(dbc.Input(type="search", placeholder="Agent", id='input_agent')),
+        dbc.Col(dbc.Input(type="search", placeholder="Agent", value="Antony", id='input_agent')),
         dbc.Col(
             dbc.Button("Ok", color="primary", className="ml-2", id='button_agent'),
             width="auto",
