@@ -56,7 +56,7 @@ if __name__ == '__main__':
             scheduler.start()
             try:
                 while True:
-                    time.sleep(10)
+                    time.sleep(2)
             except (KeyboardInterrupt, SystemExit):
                 scheduler.shutdown()
 
